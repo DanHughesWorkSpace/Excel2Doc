@@ -24,33 +24,36 @@ for s in wb.sheets():
         docvalues.append(col_value)
 # print(docvalues)
 
-# context = {}
-# for item in docvalues:
-#     if item[0] != "table":
-#         applicationName = item[2]
-#         context["applicationName"] = applicationName
-#         applicationPrefix = item[3]
-#         context["applicationPrefix"] = applicationPrefix
-#         documentId = item[4]
-#         context["documentId"] = documentId
-#         documentTitle = item[5]
-#         context["documentTitle"] = documentTitle
-#         documentRevision = item[6]
-#         context["documentRevision"] = documentRevision
+context = {}
+
+applicationName = docvalues[0][3]
+context["applicationName"] = applicationName
+applicationPrefix = docvalues[0][4]
+context["applicationPrefix"] = applicationPrefix
+documentId = docvalues[0][5]
+context["documentId"] = documentId
+documentTitle = docvalues[0][6]
+context["documentTitle"] = documentTitle
+documentRevision = docvalues[0][7]
+context["documentRevision"] = documentRevision
+
 #     elif item[0] == "table":
 #         functionId = item[1]
 #         description = item[2]
 #         priority = item[3]
 #         criticality = item[4]
 testData = [
-    ['1', 'a', 'b' ,'c'],
-    ['1', 'd','e','f'],
-    ['2', 'h','i','j'],
-    ['2', 'k','l','m'],
-    ['3', 'O','P','Q'],
-    ['3', 'r','s','t'],
-    ['3', 'u','v','w'],
-    ['4', 'x','y','z'],
+    ['1', '1', 'b' ,'c'],
+    ['1', 'text','e','f'],
+    ['2', '2','i','j'],
+    ['2', 'text','l','m'],
+    ['2', 'text','l','m22'],
+    ['3', '3','P','Q'],
+    ['3', 'table','s','t','xxx','xxx'],
+    ['3', 'table','v','w','xxx','xxx'],
+    ['4', '4','y','z'],
+    ['4', '4.1','y','z'],
+    ['4', 'text','y','z'],
 ]
 
 # section = int(section)
@@ -64,7 +67,7 @@ section_array = []
 section = 1
 i = 0;
 for item in docvalues:
-    # print(item)
+# for item in testData:
     if item[0] == str(section):
         section_array.append(item)    
     else:
@@ -74,7 +77,49 @@ for item in docvalues:
         section = section + 1
         section_dict[section] = section_array
 
-print("dict", section_dict[4])
+# print("dict", section_dict)
+
+
+def creater_section_header(test):
+        section_header = test[0][2]
+        tpl.add_heading(section_header, level=1)
+        check_sub_section(test[1])
+
+
+def check_sub_section(test):
+    for char in test[1]:
+        if char == ".":
+            tpl.add_heading(test[2], level=2)
+    
+def create_table():
+     table = tpl.add_table(1,4)
+
+def populate_section(test):
+        print("hew", test)
+        i = 0
+        while i < len(test):
+            if test[i][1] == "text":
+                    tpl.add_paragraph(test[1][2])
+            elif test[i][1] == "table":
+                print("table")
+            i = i + 1
+
+
+def display_relevant_content(test, integer):
+        i = integer
+        while i < len(test):
+            if len(test) < 2:
+                print("only a header")
+            elif test[i][1] == "text":
+                tpl.add_paragraph(test[i][2])
+      
+tpl = DocxTemplate("Word_template/workTemp.docx")
+for key in section_dict:
+    test = section_dict[key]
+
+    creater_section_header(test)
+    populate_section(test)
+
 # global1.append(section_arry)
 
     # else:      
@@ -102,39 +147,40 @@ print("dict", section_dict[4])
 #     elif entry[0] == "table":
 #         dict[entry[1]] = entry[1:5]
 #         i = i + 1
+# def createTable(list):
+#     print("func", list)
 
-tpl = DocxTemplate("work_template/workTemp.docx")
-entries = []
-for key in section_dict:
-    item = section_dict[key]
-    # print("yes", item[0][2])
-    tpl.add_heading(item[0][2], level=1)
-    i = 0
-    while i < len(item):
-        if len(item[i][1]) == 3:
-            tpl.add_heading(item[0][2], level=2)
-        elif item[i][1] == "text":
-            tpl.add_paragraph(item[i][2])
-        elif item[i][1] == "table":
-            # table = tpl.add_table(1,4)
-            k = i
-            j = len(item) - k
-            print(j)
-            while k < k + j: 
-                if item[k][1] == "table":
-                    print(item[k][1])
-                # entries.append(item[i])
-                k = k + 1
-            # print(key ,item[i])
-        i  = i + 1
-    # print(key)
 
-# print("ent", entries)
+# tpl = DocxTemplate("Word_template/workTemp.docx")
+# entries = []
+# for key in section_dict:
+#     item = section_dict[key]
+#     # print("yes", item[0][2])
+#     tpl.add_heading(item[0][2], level=1)
+#     i = 0
+#     while i < len(item):
+#         if len(item[i][1]) == 3:
+#             tpl.add_heading(item[0][2], level=2)
+#         elif item[i][1] == "text":
+#             tpl.add_paragraph(item[i][2])
+#         elif item[i][1] == "table":
+#             # table = tpl.add_table(1,4)
+#             k = i
+#             j = len(item) - k
+#             # print(j, i)
+#             # while k < k + j: 
+#             #     if item[k][1] == "table":
+#             #         entries.append(item[i])
+#             #     k = k + 1
+#             entries.append(item[i])
+#         i  = i + 1
 
-for entry in entries:
-    print("ent", entry[2:6])
-    table = tpl.add_table(1,4)
-    new_row = table.add_row().cells
+
+
+# for entry in entries:
+#     # print("ent", entry[2:6])
+#     table = tpl.add_table(1,4)
+#     new_row = table.add_row().cells
     # new_row[0].text = entry[0]
     # new_row[1].text = entry[1]
     # new_row[2].text = entry[2]
@@ -201,7 +247,8 @@ for entry in entries:
 #                 font = run.font
 #             font.size= Pt(10)
 
-# # tpl.render(context)
-# tpl.save('workTemp_result.docx')
+tpl.render(context)
 
-# os.startfile("C:/Users/Dan/Documents/projects/automated_word_document/workTemp_result.docx")
+tpl.save('new_test.docx')
+
+os.startfile("C:/Users/Dan/Documents/projects/excel_2_doc/excel-2-doc/new_test.docx")

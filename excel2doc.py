@@ -53,7 +53,7 @@ for item in docvalues:
         section = section + 1
         section_dict[section] = section_array
 
-def creater_section_header(section):
+def create_section_header(section):
         section_header = section[0][2]
         tpl.add_heading(section_header, level=1)
 
@@ -99,7 +99,7 @@ tpl = DocxTemplate("Word_template/excel2doc_template.docx")
 
 for key in section_dict:
     section = section_dict[key]
-    creater_section_header(section)
+    create_section_header(section)
     populate_section(section)
 
 tpl.render(context)

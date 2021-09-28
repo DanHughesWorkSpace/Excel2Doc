@@ -5,7 +5,9 @@ from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
 from docx.shared import Cm, Inches, Pt
 
-
+# IF UPDATING THE EXCEL FORMAT :
+    #  CONFIGURE THE section_dict  DICTIONARY AND LEAVE REMAINING CODE AS IS
+    #  YOU WILL HAVE TO UPDATE docvalues
 wb = open_workbook('format.xls')
 for s in wb.sheets():
     docvalues = []
@@ -13,6 +15,7 @@ for s in wb.sheets():
         col_value = []
         for col in range(s.ncols):
             value  = (s.cell(row,col).value)
+            
             try : value = str((value))
             except : pass
             if len(value) > 1 and value[0] != 'Q' and value[2] == '0':
@@ -61,10 +64,10 @@ def create_table(section):
             table.rows[0].cells[1].text = "Description"
             table.rows[0].cells[2].text = "Priority"
             table.rows[0].cells[3].text = "Criticality"
-            table.rows[0].cells[0].width = Inches(1.2)
-            table.rows[0].cells[1].width = Inches(4)
-            table.rows[0].cells[2].width = Inches(1.2)
-            table.rows[0].cells[3].width = Inches(1.2)
+            table.rows[0].cells[0].width = Inches(1)
+            table.rows[0].cells[1].width = Inches(5)
+            table.rows[0].cells[2].width = Inches(1)
+            table.rows[0].cells[3].width = Inches(1)
             row = table.rows[0]
             for cell in row.cells:
                 shading_elm_2 = parse_xml(r'<w:shd {} w:fill="0C3C60"/>'.format(nsdecls('w')))
@@ -92,7 +95,7 @@ def populate_section(section):
             i = i + 1
         create_table(table_content)
 
-tpl = DocxTemplate("Word_template/workTemp.docx")
+tpl = DocxTemplate("Word_template/excel2doc_template.docx")
 
 for key in section_dict:
     section = section_dict[key]

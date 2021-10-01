@@ -85,9 +85,14 @@ def populate_section(section):
         i = 0
         table_content = []
         while i < len(section):
+            j = 0
             for char in section[i][1]:
                 if char == ".":
-                    tpl.add_heading(section[i][2], level=2)
+                    j = j + 1
+                    if j == 1 and len(section[i][1]) < 4:
+                        tpl.add_heading(section[i][2], level=2)
+                    elif j == 2:
+                        tpl.add_heading(section[i][2], level=3)
             if section[i][1] == "text":
                 tpl.add_paragraph(section[i][2])
             elif section[i][1] == "table":

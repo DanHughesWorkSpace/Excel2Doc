@@ -10,6 +10,3 @@ Files:
 - excel2doc_template.docx is the Word Document Template that the code uses to create the new Word Document.
     - multiple prefixes can be seen in this document such as {{document_title}}, and {{revision}}.
 - new_test.docx is the newly created Word Document populated with the contents inside the Excel Spreadsheet.
-
-Future Directions:
-- I believe storing procedural documentation in an excel format can be beneficial. It allows companies to catagorize and search for data in a way that can add a tremendous amount of value. In a later version I hope to create a UI where users can interact with their own variables and provide their own data.

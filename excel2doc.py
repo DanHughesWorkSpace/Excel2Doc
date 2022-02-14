@@ -8,7 +8,7 @@ from docx.shared import Cm, Inches, Pt
 # IF UPDATING THE EXCEL FORMAT :
     #  CONFIGURE THE section_dict  DICTIONARY AND LEAVE REMAINING CODE AS IS
     #  YOU WILL HAVE TO UPDATE docvalues
-wb = open_workbook('format.xls')
+wb = open_workbook('format-work.xls')
 for s in wb.sheets():
     docvalues = []
     for row in range(s.nrows):
@@ -100,7 +100,7 @@ def populate_section(section):
             i = i + 1
         create_table(table_content)
 
-tpl = DocxTemplate("Word_template/excel2doc_template.docx")
+tpl = DocxTemplate("Word_template/excel2doc_template-work.docx")
 
 for key in section_dict:
     section = section_dict[key]
